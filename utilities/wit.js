@@ -13,7 +13,8 @@ exports.fetchTextInfo = function(text) {
 
 exports.findMatch = function(result, entities, intent) {
 
-  let foundIntent = false
+    let foundIntent = false
+    console.log(intent)
   if(intent && result.entities && result.entities[intent.name]) {
       for(intent in intent.intents) {
         const foundIndex = result.entities.intent.indexOf(intent.value)
