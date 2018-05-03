@@ -112,8 +112,8 @@ function fetchTrafficIncidents(city, context) {
     var lng = 0;
     CTProvider.getGeocodingInformation(city)
         .then((response) => {
-            lat = response.results[0].locations.latLng.lat;
-            lng = response.results[0].locations.latLng.lng;
+            lat = response.results[0].locations[0].latLng.lat;
+            lng = response.results[0].locations[0].latLng.lng;
         })
         .catch((response, error) => {
             context.sendText("Ooops my bot code is experiencing problems..")
