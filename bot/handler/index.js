@@ -114,20 +114,29 @@ function fetchTrafficIncidents(city, context) {
         .then((response) => {
             lat = response.results[0].locations[0].latLng.lat;
             lng = response.results[0].locations[0].latLng.lng;
+
+
+
+
+            CTProvider.getTrafficIncidents(lat, lng)
+                .then((response) => {
+                    context.sendText(
+                        "There are " + response.incidents.length + " incidents in that area."
+                    )
+
+                })
+                .catch((response, error) => {
+                    context.sendText("Ooops my bot code is experiencing problems..")
+                })
+
+
+
+
         })
         .catch((response, error) => {
             context.sendText("Ooops my bot code is experiencing problems..")
         })
 
-    CTProvider.getTrafficIncidents(lat, lng)
-        .then((response) => {
-            context.sendText(
-                "There are " + response.incidents.length + " incidents in that area."
-                ) 
 
-        })
-        .catch((response, error) => {
-            context.sendText("Ooops my bot code is experiencing problems..")
-        })
 
 }
