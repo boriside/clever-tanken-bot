@@ -6,7 +6,9 @@ const WitClient = new Wit({
 })
 
 exports.fetchTextInfo = function(text) {
-  return WitClient.message(text)
+ 	const result = WitClient.message(text)
+	console.log(result)
+	return result
 }
 
 exports.findMatch = function(result, entities, intent) {
