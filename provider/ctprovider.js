@@ -27,9 +27,28 @@ exports.CTProvider = class CTProvider {
         })
     }
 
-    getTrafficIncidents(city) {
+    getTrafficIncidents(lat, lng) {
         return new Promise((completionHandler, errorHandler) => {
-            const url = "http://www.mapquestapi.com/traffic/v2/incidents?key=xR9kTOLyPwkIpkwR7Y6s2qUYcZkAdX9N&boundingBox=39.42,-105.25,39.52,-104.71&filters=construction,incidents"
+            var boundingBox = lat + "," + lng + "," + (lat - 0.22) + "," + (lng - 0.22)
+            const url = "http://www.mapquestapi.com/traffic/v2/incidents?key=xR9kTOLyPwkIpkwR7Y6s2qUYcZkAdX9N&boundingBox=" + boundingBox + "&filters=construction,incidents";
+            console.log("request traffic")
+            console.log(url)
+            Request.get(url, function (error, response, body) {
+
+                var result = JSON.parse(body)
+                var isOk = response.statusCode == 200
+
+                console.log("result")
+                console.log(result)
+                if (isOk) { completionHandler(result) } else { errorHandler(result, error) }
+
+            })
+        })
+    }
+
+    getGeocodingInformation(city) {
+        return new Promise((completionHandler, errorHandler) => {
+            const url = "http://www.mapquestapi.com/geocoding/v1/address?key=xR9kTOLyPwkIpkwR7Y6s2qUYcZkAdX9N&location=" + city
             console.log("request traffic")
             console.log(url)
             Request.get(url, function (error, response, body) {

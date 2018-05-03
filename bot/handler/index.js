@@ -108,8 +108,18 @@ function handleText(result, context) {
   }
 
 function fetchTrafficIncidents(city, context) {
+    var lat = 0;
+    var lng = 0;
+    CTProvider.getGeocodingInformation(city)
+        .then((response) => {
+            lat = response.results[0].locations.latLng.lat;
+            lng = response.results[0].locations.latLng.lng;
+        })
+        .catch((response, error) => {
+            context.sendText("Ooops my bot code is experiencing problems..")
+        })
 
-    CTProvider.getTrafficIncidents(city)
+    CTProvider.getTrafficIncidents(lat, lng)
         .then((response) => {
             context.sendText(
                 "There are " + response.incidents.length + " incidents in that area."
