@@ -25,7 +25,7 @@ function handleText(result, context) {
       const location = searchForFuelStationValues["location"][0].value
       const fuelType = searchForFuelStationValues["fuelType"][0].value
       //fetchFuelStationPrice(location, fuelType, context);
-        fetchFuelStationPrice(location);
+        fetchTrafficIncidents(location);
     } else if(setSearchRadiusValues) {
       const radius = setSearchRadiusValues["number"][0].value;
       context.setState({ searchRadius: radius });
