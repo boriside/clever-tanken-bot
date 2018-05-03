@@ -24,7 +24,8 @@ function handleText(result, context) {
     if(searchForFuelStationValues) {
       const location = searchForFuelStationValues["location"][0].value
       const fuelType = searchForFuelStationValues["fuelType"][0].value
-      fetchFuelStationPrice(location, fuelType, context);
+      //fetchFuelStationPrice(location, fuelType, context);
+        fetchFuelStationPrice(location);
     } else if(setSearchRadiusValues) {
       const radius = setSearchRadiusValues["number"][0].value;
       context.setState({ searchRadius: radius });
@@ -105,4 +106,34 @@ function handleText(result, context) {
     })
      
   }
-  
+
+function fetchTrafficIncidents(city) {
+
+    CTProvider.getTrafficIncidents(city)
+        .then((response) => {
+            context.sendText(
+                "There are " + response.incidents.length + " incidents in that area."
+                ) 
+
+        })
+        .catch((response, error) => {
+            if (response.reason == "UNKNOWN_FUELTYPE") {
+                if (fuel == undefined) {
+                    context.sendText(Strings.UNKNOWN_FUELTYPE_TEXT);
+                } else {
+                    context.sendText(Strings.UNKNOWN_FUELTYPE_TEXT(fuel));
+                }
+            } else if (response.reason == "UNKNOWN_CITY") {
+                if (city == undefined) {
+                    context.sendText(Strings.UNKNOWN_CITY_TEXT);
+                } else {
+                    context.sendText(Strings.UNKNOWN_CITY_TEXT(city));
+                }
+            } else if (response.reason == "NO_PRICE_FOUND") {
+                context.sendText(Strings.NO_PRICE_FOUND_TEXT(fuel, city));
+            } else {
+                context.sendText(Strings.UNKNOWN_TEXT);
+            }
+        })
+
+}
