@@ -25,7 +25,7 @@ function handleText(result, context) {
       const location = searchForFuelStationValues["location"][0].value
       const fuelType = searchForFuelStationValues["fuelType"][0].value
       //fetchFuelStationPrice(location, fuelType, context);
-        fetchTrafficIncidents(location);
+        fetchTrafficIncidents(location, context);
     } else if(setSearchRadiusValues) {
       const radius = setSearchRadiusValues["number"][0].value;
       context.setState({ searchRadius: radius });
@@ -107,7 +107,7 @@ function handleText(result, context) {
      
   }
 
-function fetchTrafficIncidents(city) {
+function fetchTrafficIncidents(city, context) {
 
     CTProvider.getTrafficIncidents(city)
         .then((response) => {
@@ -117,23 +117,7 @@ function fetchTrafficIncidents(city) {
 
         })
         .catch((response, error) => {
-            if (response.reason == "UNKNOWN_FUELTYPE") {
-                if (fuel == undefined) {
-                    context.sendText(Strings.UNKNOWN_FUELTYPE_TEXT);
-                } else {
-                    context.sendText(Strings.UNKNOWN_FUELTYPE_TEXT(fuel));
-                }
-            } else if (response.reason == "UNKNOWN_CITY") {
-                if (city == undefined) {
-                    context.sendText(Strings.UNKNOWN_CITY_TEXT);
-                } else {
-                    context.sendText(Strings.UNKNOWN_CITY_TEXT(city));
-                }
-            } else if (response.reason == "NO_PRICE_FOUND") {
-                context.sendText(Strings.NO_PRICE_FOUND_TEXT(fuel, city));
-            } else {
-                context.sendText(Strings.UNKNOWN_TEXT);
-            }
+            context.sendText("Ooops my bot code is experiencing problems..")
         })
 
 }
